@@ -7,8 +7,12 @@ final class ModelData: ObservableObject {
     init() {
         self.forecast = load("5dayForecastLondon.json")
     }
+    
+    
     func loadData(lat: Double, lon: Double) {
-        let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&units=metric&appid=524b5c77b1e932342d2a0f31771e2b2d")
+        
+        if let clientID = ProcessInfo.processInfo.environment["OPENWEATHER_API_KEY"] {
+        let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&units=metric&appid=\(clientID)")
         
         let session = URLSession(configuration: .default)
         
@@ -28,7 +32,7 @@ final class ModelData: ObservableObject {
                 }
             }
         }.resume()
-        
+        }
     }
 }
     
